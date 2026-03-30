@@ -1,0 +1,92 @@
+/* ---------------- AUTH CONTAINER ---------------- */
+.auth-container {
+  max-width: 420px;
+  margin: 6rem auto;
+  padding: 2.5rem;
+
+  background: #ffffff; /* clean white contrast */
+  border-radius: 16px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+
+  text-align: center;
+}
+
+/* HEADING */
+.auth-container h2 {
+  margin-bottom: 1.5rem;
+  color: #1e3c72; /* match hero tone */
+  font-size: 2rem;
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* INPUTS */
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  font-size: 1rem;
+  outline: none;
+
+  background: #f9fafb;
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+/* INPUT FOCUS */
+input:focus {
+  border-color: #1e3c72;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 12px;
+
+  background: #1e3c72; /* hero color */
+  color: #fff;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  border: none;
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
+}
+
+/* BUTTON HOVER */
+button:hover {
+  background: #2a5298;
+  transform: translateY(-2px);
+}
+
+/* EXTRA TEXT */
+.auth-container p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* LINKS */
+.auth-container a {
+  color: #ff7e5f; /* accent stays */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
