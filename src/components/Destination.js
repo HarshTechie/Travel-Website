@@ -38,6 +38,7 @@ const Section = ({ title, destinations, user }) => {
               key={dest.id}
               destination={dest}
               username={user?.username}
+              user={user}
             />
           ))}
         </div>
@@ -57,6 +58,8 @@ const DestinationPage = ({ user }) => {
   const [destinations, setDestinations] = useState([]);
   const [filterType, setFilterType] = useState('All');
   const [filterBudget, setFilterBudget] = useState('All');
+  const [sortBy, setSortBy] = useState('default');
+  const [trendingOnly, setTrendingOnly] = useState(false);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -72,7 +75,7 @@ const DestinationPage = ({ user }) => {
   }, []);
 
   // Filtering logic
-  const filtered = destinations.filter((d) => {
+  let filtered = destinations.filter((d) => {
     const typeMatch = filterType === 'All' || d.type === filterType;
 
     const budgetNumber = parseInt(d.budget.replace(/[₹,]/g, '').split('-')[0]);
@@ -84,8 +87,20 @@ const DestinationPage = ({ user }) => {
         budgetNumber <= 50000) ||
       (filterBudget === 'High' && budgetNumber > 50000);
 
-    return typeMatch && budgetMatch;
+    const trendMatch = !trendingOnly || d.trending;
+    return typeMatch && budgetMatch && trendMatch;
   });
+
+  // Sorting (additive)
+  if (sortBy === 'price_asc' || sortBy === 'price_desc') {
+    filtered = [...filtered].sort((a, b) => {
+      const na = parseInt(a.budget.replace(/[₹,]/g, '').split('-')[0]) || 0;
+      const nb = parseInt(b.budget.replace(/[₹,]/g, '').split('-')[0]) || 0;
+      return sortBy === 'price_asc' ? na - nb : nb - na;
+    });
+  } else if (sortBy === 'popularity') {
+    filtered = [...filtered].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  }
 
   const grouped = {
     Popular: filtered.filter((d) => d.type === 'Popular'),
@@ -96,29 +111,7 @@ const DestinationPage = ({ user }) => {
 
   return (
     <>
-      {/* Filter Bar */}
-      <div className="filter-bar">
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-        >
-          <option value="All">All Types</option>
-          <option value="Popular">Popular</option>
-          <option value="Culture">Culture</option>
-          <option value="Beach">Beach</option>
-          <option value="Adventure">Adventure</option>
-        </select>
-
-        <select
-          value={filterBudget}
-          onChange={(e) => setFilterBudget(e.target.value)}
-        >
-          <option value="All">All Budgets</option>
-          <option value="Low">Below ₹30,000</option>
-          <option value="Mid">₹30,000 - ₹50,000</option>
-          <option value="High">Above ₹50,000</option>
-        </select>
-      </div>
+      {/* Filter UI removed — logic preserved so future toggles still work */}
 
       {/* Render only filtered sections */}
       {filterType === 'All' ? (

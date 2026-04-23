@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchImage } from './fetchimages';
+import BookNowButton from './booking/BookNowButton';
 import '../styles/Destination.css';
 
-const DestinationCard = ({ destination, username }) => {
+const DestinationCard = ({ destination, username, user }) => {
   const [fav, setFav] = useState(false);
   const [img, setImg] = useState(destination.image || '');
   const [popup, setPopup] = useState('');
@@ -74,13 +75,19 @@ const DestinationCard = ({ destination, username }) => {
         alt={destination.name}
       />
       <div className="card-info">
-        <h3>{destination.name}</h3>
+        <h3>
+          {destination.name}
+          {destination.trending && <span className="trending-tag">🔥 TRENDING</span>}
+        </h3>
         <p>{destination.desc}</p>
         <p className="budget">
           Budget: <span>{destination.budget}</span>
         </p>
         <div className="card-actions">
-          <button className="book">Book Now</button>
+          <BookNowButton
+            destination={{ ...destination, image: img }}
+            user={user || (username ? { username } : null)}
+          />
           <button
             className={`fav ${fav ? 'active' : ''}`}
             onClick={toggleFav}

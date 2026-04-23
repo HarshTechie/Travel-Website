@@ -60,7 +60,13 @@ const Hero = () => {
       <section className="popular-destinations">
         <h2>Popular Destinations</h2>
         <div className="destinations-grid">
-          <div className="destination-card">
+          <div
+            className="destination-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate('/destinations')}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/destinations')}
+          >
             <img
               src="/venice.jpg"
               alt="Venice"
@@ -71,7 +77,13 @@ const Hero = () => {
               <span>17,657.67</span>
             </div>
           </div>
-          <div className="destination-card">
+          <div
+            className="destination-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate('/destinations')}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/destinations')}
+          >
             <img
               src="/sao.jpg"
               alt="Sao Paulo"
@@ -82,7 +94,13 @@ const Hero = () => {
               <span>₹21,890</span>
             </div>
           </div>
-          <div className="destination-card">
+          <div
+            className="destination-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate('/destinations')}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/destinations')}
+          >
             <img
               src="/bardos.jpg"
               alt="Barbados"
@@ -93,7 +111,13 @@ const Hero = () => {
               <span>₹26,342</span>
             </div>
           </div>
-          <div className="destination-card">
+          <div
+            className="destination-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate('/destinations')}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/destinations')}
+          >
             <img
               src="/cyprus.jpg"
               alt="Cyprus"

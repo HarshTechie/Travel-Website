@@ -60,41 +60,94 @@ body {
 } */
 .filter-bar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  align-items: center;
+  gap: 10px;
 
   width: 100%;
-  padding: 16px 8%; /* SAME as destination section */
+  padding: 12px 8%;
 
   margin: 0;
 
   background: linear-gradient(135deg, #1e3c72, #2a5298);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.08);
 
-  box-sizing: border-box; /* IMPORTANT */
+  box-sizing: border-box;
 }
-/* dropdowns */
-.filter-bar select {
-  padding: 10px 14px;
-  border-radius: 8px;
+
+/* grouped pill set — visually connected */
+.filter-pills {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 4px;
+  border-radius: 999px;
+}
+
+/* individual pill button */
+.pill {
+  appearance: none;
   border: none;
-
-  background: #ffffff;
-  color: #111;
-
-  font-size: 14px;
+  background: transparent;
+  color: rgba(255,255,255,.82);
+  padding: 6px 14px;
+  font-size: 13px;
   font-weight: 500;
-
+  border-radius: 999px;
   cursor: pointer;
-  transition: 0.3s;
+  line-height: 1.4;
+  transition: background .15s, color .15s, transform .15s;
+  white-space: nowrap;
+}
+.pill:hover {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+}
+.pill-active {
+  background: #ff7e5f;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(255,126,95,.4);
+}
+.pill-active:hover { background: #ff6b4a; color: #fff; }
+
+/* standalone trending pill (outside the group) */
+.pill-trending {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  padding: 6px 14px;
+}
+.pill-trending.pill-active {
+  background: #ff7e5f;
+  border-color: #ff7e5f;
 }
 
-.filter-bar select:hover {
-  transform: translateY(-1px);
+/* compact sort select styled to match */
+.pill-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 6px 30px 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.1)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ffffff' d='M0 0l5 6 5-6z'/></svg>")
+    no-repeat right 10px center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background .15s, border-color .15s;
 }
-
-.filter-bar select:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.4);
+.pill-select option { color: #111; background: #fff; }
+.pill-select:hover { background-color: rgba(255,255,255,.16); }
+.pill-select:focus { outline: none; border-color: #ff7e5f; }
+.pill-select-active {
+  background-color: #ff7e5f;
+  border-color: #ff7e5f;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ffffff' d='M0 0l5 6 5-6z'/></svg>");
 }
 
 /* ---------------- DESTINATION SECTION ---------------- */
@@ -168,17 +221,17 @@ body {
   width: 250px;
 
   background: #ffffff;
-  border-radius: 14px;
+  border-radius: 12px;
 
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 
-  transition: 0.3s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
 .card img {
@@ -213,6 +266,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 /* BOOK BUTTON */
@@ -221,15 +276,17 @@ body {
   color: white;
 
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
 
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .book:hover {
   background: #2a5298;
+  transform: translateY(-1px);
 }
 
 /* FAVORITE */
@@ -301,8 +358,12 @@ body {
 /* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
   .filter-bar {
-    flex-direction: column;
+    padding: 10px 16px;
+    gap: 8px;
   }
+  .filter-pills { padding: 3px; }
+  .pill { padding: 5px 11px; font-size: 12px; }
+  .pill-select { padding: 5px 26px 5px 10px; font-size: 12px; }
 
   .destination-section {
     padding: 20px;

@@ -6,7 +6,15 @@ const ItineraryForm = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [budget, setBudget] = useState('');
+  const [travelStyle, setTravelStyle] = useState('standard');
   const [itinerary, setItinerary] = useState(null);
+
+  const styleLabel = {
+    backpacking: '🎒 Backpacking',
+    standard: '🧳 Standard',
+    luxury: '✨ Luxury',
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,8 +50,29 @@ const ItineraryForm = () => {
       location: selectedLocation,
       startDate,
       endDate,
+      budget,
+      travelStyle,
       schedule,
     });
+  };
+
+  const exportItinerary = () => {
+    window.print();
+  };
+
+  const copyShareLink = () => {
+    const payload = encodeURIComponent(JSON.stringify({
+      location: itinerary.location,
+      startDate: itinerary.startDate,
+      endDate: itinerary.endDate,
+      budget: itinerary.budget,
+      travelStyle: itinerary.travelStyle,
+    }));
+    const url = `${window.location.origin}/itineraries?shared=${payload}`;
+    navigator.clipboard.writeText(url).then(
+      () => alert('Share link copied to clipboard!'),
+      () => alert(url)
+    );
   };
 
   return (
@@ -53,7 +82,7 @@ const ItineraryForm = () => {
           onSubmit={handleSubmit}
           className="form"
         >
-          <h2>AI Itinerary Generator</h2>
+          <h2>Itinerary Generator</h2>
 
           <label>Choose Location:</label>
           <select
@@ -85,6 +114,21 @@ const ItineraryForm = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
 
+          <label>Budget (₹, optional):</label>
+          <input
+            type="number"
+            placeholder="e.g. 50000"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          />
+
+          <label>Travel Style:</label>
+          <select value={travelStyle} onChange={(e) => setTravelStyle(e.target.value)}>
+            <option value="backpacking">🎒 Backpacking</option>
+            <option value="standard">🧳 Standard</option>
+            <option value="luxury">✨ Luxury</option>
+          </select>
+
           <button type="submit">Generate Itinerary</button>
         </form>
       ) : (
@@ -93,6 +137,10 @@ const ItineraryForm = () => {
           <p>
             <strong>From:</strong> {itinerary.startDate} <strong>To:</strong>{' '}
             {itinerary.endDate}
+          </p>
+          <p>
+            <strong>Style:</strong> {styleLabel[itinerary.travelStyle] || itinerary.travelStyle}
+            {itinerary.budget && <> · <strong>Budget:</strong> ₹{Number(itinerary.budget).toLocaleString('en-IN')}</>}
           </p>
 
           {itinerary.schedule.map((day) => (
@@ -109,7 +157,11 @@ const ItineraryForm = () => {
             </div>
           ))}
 
-          <button onClick={() => setItinerary(null)}>Start Over</button>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
+            <button onClick={() => setItinerary(null)}>Start Over</button>
+            <button type="button" onClick={exportItinerary}>🖨 Export / PDF</button>
+            <button type="button" onClick={copyShareLink}>🔗 Share Link</button>
+          </div>
         </div>
       )}
     </div>

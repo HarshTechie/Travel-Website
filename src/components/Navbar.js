@@ -32,6 +32,14 @@ const Navbar = ({ user, setUser }) => {
         <li>
           <Link to="/favorites">Favorites</Link>
         </li>
+        <li>
+          <Link to="/cars">Cars</Link>
+        </li>
+        {user && (
+          <li>
+            <Link to="/my-bookings">My Bookings</Link>
+          </li>
+        )}
       </ul>
 
       <div className="auth-section">

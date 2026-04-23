@@ -6,6 +6,8 @@ const destinations = [
     budget: '₹35,000 - ₹45,000',
     desc: 'Palaces, Forts',
     image: 'https://source.unsplash.com/300x200/?jaipur',
+    trending: true,
+    popularity: 95,
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ const destinations = [
     budget: '₹40,000 - ₹50,000',
     desc: 'Beaches, Nightlife',
     image: 'https://source.unsplash.com/300x200/?goa',
+    trending: true,
+    popularity: 98,
   },
   {
     id: 3,
