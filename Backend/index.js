@@ -1,184 +1,4 @@
-// const express = require('express');
-// const cors = require('cors');
-// const { Pool } = require('pg');
-// const bcrypt = require('bcrypt');
 
-// const app = express();
-// app.use(cors());
-// app.use(express.json());
-
-// // PostgreSQL connection
-// const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   database: 'Travel',
-//   password: '15062006',
-//   port: 5432,
-// });
-
-// //MONGO DB
-
-// // --------- Signup route ---------
-// app.post('/signup', async (req, res) => {
-//   const { username, email, password } = req.body;
-
-//   if (!username || !email || !password)
-//     return res.status(400).json({ error: 'Please fill all fields' });
-
-//   try {
-//     const existing = await pool.query(
-//       'SELECT * FROM users WHERE username=$1 OR email=$2',
-//       [username, email]
-//     );
-
-//     if (existing.rows.length > 0) {
-//       return res
-//         .status(400)
-//         .json({ error: 'Username or Email already exists' });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const result = await pool.query(
-//       'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email',
-//       [username, email, hashedPassword]
-//     );
-
-//     res.json({ message: 'Signup successful', user: result.rows[0] });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
-// // --------- Login route ---------
-// app.post('/login', async (req, res) => {
-//   const { username, password } = req.body;
-
-//   if (!username || !password)
-//     return res
-//       .status(400)
-//       .json({ error: 'Please enter username and password' });
-
-//   try {
-//     const userRes = await pool.query('SELECT * FROM users WHERE username=$1', [
-//       username,
-//     ]);
-//     const user = userRes.rows[0];
-
-//     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
-
-//     const match = await bcrypt.compare(password, user.password);
-//     if (!match) return res.status(400).json({ error: 'Invalid credentials' });
-
-//     res.json({
-//       message: 'Login successful',
-//       user: { username: user.username, email: user.email },
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
-// // --------- Favorites routes ---------
-
-// // Add a favorite (avoid duplicates)
-// app.post('/api/favorites', async (req, res) => {
-//   const { username, destination_name, image_url } = req.body;
-//   try {
-//     const exists = await pool.query(
-//       'SELECT * FROM favorites WHERE username=$1 AND destination_name=$2',
-//       [username, destination_name]
-//     );
-
-//     if (exists.rows.length > 0) {
-//       return res.status(400).json({ error: 'Already in favorites' });
-//     }
-
-//     const result = await pool.query(
-//       'INSERT INTO favorites (username, destination_name, image_url) VALUES ($1, $2, $3) RETURNING *',
-//       [username, destination_name, image_url]
-//     );
-//     res.json({ favorite: result.rows[0] });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Database error' });
-//   }
-// });
-
-// // Get favorites for a user
-// app.get('/api/favorites/:username', async (req, res) => {
-//   const { username } = req.params;
-//   try {
-//     const result = await pool.query(
-//       'SELECT * FROM favorites WHERE username = $1 ORDER BY created_at DESC',
-//       [username]
-//     );
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Database error' });
-//   }
-// });
-
-// // Remove a favorite
-// app.delete('/api/favorites/:username/:destination_name', async (req, res) => {
-//   const { username, destination_name } = req.params;
-//   try {
-//     await pool.query(
-//       'DELETE FROM favorites WHERE username=$1 AND destination_name=$2',
-//       [username, destination_name]
-//     );
-//     res.json({ success: true });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Database error' });
-//   }
-// });
-// // Reviews table should exist in PostgreSQL: id (SERIAL), username (TEXT), review (TEXT), created_at (TIMESTAMP DEFAULT NOW())
-
-// // Get all reviews
-// // Get all reviews
-
-// // Add a review
-// // Get all reviews
-// // Get all reviews
-// app.get('/reviews', async (req, res) => {
-//   try {
-//     const result = await pool.query(
-//       'SELECT * FROM reviews ORDER BY created_at DESC'
-//     );
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Database error fetching reviews' });
-//   }
-// });
-
-// // Add new review
-// app.post('/reviews', async (req, res) => {
-//   const { username, review } = req.body;
-
-//   if (!username || !review) {
-//     return res.status(400).json({ error: 'Username and review are required' });
-//   }
-
-//   try {
-//     const result = await pool.query(
-//       'INSERT INTO reviews (username, review) VALUES ($1, $2) RETURNING *',
-//       [username, review]
-//     );
-//     console.log('Added review:', result.rows[0]); // ✅ Logs the added review
-//     res.json(result.rows[0]);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Database error adding review' });
-//   }
-// });
-
-// // Start server
-// app.listen(5000, () => console.log('Server running on http://localhost:5000'));
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -187,7 +7,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
 
 /* ------------ MongoDB Connection ------------ */
 
@@ -199,12 +19,22 @@ mongoose
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
+
 /* ------------ Schemas ------------ */
 
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
+  // additive optional fields (backward-compatible)
+  role: {
+    type: String,
+    enum: ['customer', 'vendor', 'admin'],
+    default: 'customer',
+  },
+  phone: String,
+  avatarUrl: String,
+  createdAt: { type: Date, default: Date.now },
 });
 
 const favoriteSchema = new mongoose.Schema({
@@ -218,6 +48,10 @@ const reviewSchema = new mongoose.Schema({
   username: String,
   review: String,
   created_at: { type: Date, default: Date.now },
+  // additive optional
+  destination_name: { type: String, default: null },
+  rating: { type: Number, min: 1, max: 5, default: null },
+  images: { type: [String], default: [] },
 });
 
 const User = mongoose.model('User', userSchema);
@@ -374,6 +208,23 @@ app.post('/reviews', async (req, res) => {
     res.status(500).json({ error: 'Database error adding review' });
   }
 });
+
+/* ------------ New modular routers (mounted AFTER legacy models register) ------------ */
+const bookingsRouter = require('./modules/bookings');
+const rentalsRouter = require('./modules/rentals');
+const destinationsRouter = require('./modules/destinations');
+const reviewsRouter = require('./modules/reviews');
+const carsRouter = require('./modules/cars');
+
+app.use('/api/v1/bookings', bookingsRouter);
+app.use('/api/v1/rentals', rentalsRouter);
+app.use('/api/v1/destinations', destinationsRouter);
+app.use('/api/v1/reviews', reviewsRouter);
+app.use('/api/cars', carsRouter);
+
+app.get('/api/v1/health', (_req, res) =>
+  res.json({ ok: true, data: { status: 'up', ts: Date.now() } })
+);
 
 /* ------------ Server ------------ */
 

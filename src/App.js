@@ -18,12 +18,20 @@ import ItineraryDisplay from './components/ItineraryDisplay';
 import Reviews from './components/Reviews';
 import FavoritePage from './components/FavoritePage';
 
+// New modules (additive)
+import MyBookings from './components/booking/MyBookings';
+import RentalHome from './components/rentals/RentalHome';
+import CarDetail from './components/rentals/CarDetail';
+import RentCar from './components/cars/RentCar';
+import { ToastProvider } from './components/common/Toast';
+
 // inside <Routes> ...
 
 function App() {
   const [user, setUser] = useState(null);
 
   return (
+    <ToastProvider>
     <Router>
       {/* Navbar visible on all pages */}
       <Navbar
@@ -85,6 +93,15 @@ function App() {
           element={<Reviews user={user} />} // pass user for login checks
         />
 
+        {/* ---- New additive routes ---- */}
+        <Route
+          path="/my-bookings"
+          element={user ? <MyBookings user={user} /> : <Navigate to="/login" />}
+        />
+        <Route path="/rentals" element={<RentalHome />} />
+        <Route path="/rentals/:id" element={<CarDetail user={user} />} />
+        <Route path="/cars" element={<RentCar />} />
+
         {/* Fallback for unknown URLs */}
         <Route
           path="*"
@@ -95,6 +112,7 @@ function App() {
       {/* Footer visible on all pages */}
       <Footer />
     </Router>
+    </ToastProvider>
   );
 }
 

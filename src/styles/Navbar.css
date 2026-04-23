@@ -41,29 +41,41 @@
 }
 
 /* Auth links / user profile (right) */
+.auth-section,
 .auth-links,
 .user-profile {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
+.auth-section .auth-btn,
 .auth-links a,
 .logout-btn {
-  padding: 0.3rem 0.8rem;
+  padding: 0.45rem 1rem;
   background-color: #667eea;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.25s ease, transform 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
+.auth-section .auth-btn + .auth-btn {
+  margin-left: 0.25rem;
+}
+
+.auth-section .auth-btn:hover,
 .auth-links a:hover,
 .logout-btn:hover {
   background-color: #764ba2;
+  transform: translateY(-1px);
 }
 
 /* Responsive */
@@ -77,9 +89,11 @@
     justify-content: center;
     flex-wrap: wrap;
   }
+  .auth-section,
   .auth-links,
   .user-profile {
     justify-content: center;
     width: 100%;
+    gap: 0.5rem;
   }
 }
