@@ -1,0 +1,18 @@
+{
+  "name": "travelwebsite-server",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^9.3.0",
+    "pg": "^8.16.3",
+    "travelwebsite": "file:.."
+  },
+  "scripts": {
+    "start": "node index.js",
+    "seed": "node seed.js"
+  }
+}
