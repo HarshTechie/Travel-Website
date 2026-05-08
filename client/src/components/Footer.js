@@ -24,28 +24,28 @@ const Footer = () => {
           <h3>Follow Us</h3>
           <div className="social-icons">
             <a
-              href="#"
+              href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
             >
               🌐
             </a>
             <a
-              href="#"
+              href="https://twitter.com"
               target="_blank"
               rel="noreferrer"
             >
               🐦
             </a>
             <a
-              href="#"
+              href="https://facebook.com"
               target="_blank"
               rel="noreferrer"
             >
               📘
             </a>
             <a
-              href="#"
+              href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
             >

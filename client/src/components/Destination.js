@@ -56,10 +56,10 @@ const Section = ({ title, destinations, user }) => {
 
 const DestinationPage = ({ user }) => {
   const [destinations, setDestinations] = useState([]);
-  const [filterType, setFilterType] = useState('All');
-  const [filterBudget, setFilterBudget] = useState('All');
-  const [sortBy, setSortBy] = useState('default');
-  const [trendingOnly, setTrendingOnly] = useState(false);
+  //const [filterType, setFilterType] = useState('All');
+  //const [filterBudget, setFilterBudget] = useState('All');
+  //const [sortBy, setSortBy] = useState('default');
+  //const [trendingOnly, setTrendingOnly] = useState(false);
 
   useEffect(() => {
     const loadImages = async () => {
