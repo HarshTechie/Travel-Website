@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchImage } from './fetchimages';
 import BookNowButton from './booking/BookNowButton';
+import { API_BASE } from '../api/client';
 import '../styles/Destination.css';
 
 const DestinationCard = ({ destination, username, user }) => {
@@ -20,7 +21,7 @@ const DestinationCard = ({ destination, username, user }) => {
 
   useEffect(() => {
     if (!username) return;
-    fetch(`http://localhost:5000/api/favorites/${username}`)
+    fetch(`${API_BASE}/api/favorites/${username}`)
       .then((res) => res.json())
       .then((data) => {
         const exists = data.some(
@@ -40,7 +41,7 @@ const DestinationCard = ({ destination, username, user }) => {
 
     try {
       if (!fav) {
-        await fetch('http://localhost:5000/api/favorites', {
+        await fetch(`${API_BASE}/api/favorites`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -53,7 +54,7 @@ const DestinationCard = ({ destination, username, user }) => {
         setPopup('Added to your favorites!');
       } else {
         await fetch(
-          `http://localhost:5000/api/favorites/${username}/${destination.name}`,
+          `${API_BASE}/api/favorites/${username}/${destination.name}`,
           {
             method: 'DELETE',
           }
