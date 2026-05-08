@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_BASE } from '../api/client';
 import '../styles/Destination.css';
 
 const FavoritePage = ({ user }) => {
@@ -12,7 +13,7 @@ const FavoritePage = ({ user }) => {
     const fetchFavorites = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/favorites/${user.username}`
+          `${API_BASE}/api/favorites/${user.username}`
         );
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
@@ -31,7 +32,7 @@ const FavoritePage = ({ user }) => {
   const handleRemove = async (destination_name) => {
     try {
       await fetch(
-        `http://localhost:5000/api/favorites/${user.username}/${destination_name}`,
+        `${API_BASE}/api/favorites/${user.username}/${destination_name}`,
         {
           method: 'DELETE',
         }
