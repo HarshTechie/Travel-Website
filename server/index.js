@@ -6,7 +6,15 @@ const bcrypt = require('bcrypt');
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'https://travel-website-topaz-delta.vercel.app',
+      'http://localhost:3000',
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '2mb' }));
 
 /* ------------ MongoDB Connection ------------ */
