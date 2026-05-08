@@ -19,8 +19,11 @@ app.use(express.json({ limit: '2mb' }));
 
 /* ------------ MongoDB Connection ------------ */
 
+const MONGO_URI =
+  process.env.MONGO_URI || 'mongodb://localhost:27017/travelDB';
+
 mongoose
-  .connect('mongodb://localhost:27017/travelDB')
+  .connect(MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
   })
@@ -236,6 +239,7 @@ app.get('/api/v1/health', (_req, res) =>
 
 /* ------------ Server ------------ */
 
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
