@@ -2,17 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Hero.css';
 
-// Example POST request from React
-const handleContactSubmit = async (name, email, message) => {
-  const response = await fetch('http://localhost:5000/api/contact', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, message }),
-  });
-  const data = await response.json();
-  console.log(data);
-};
-
 const Hero = () => {
   const navigate = useNavigate();
 
