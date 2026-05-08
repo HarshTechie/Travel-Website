@@ -1,70 +1,131 @@
-# Getting Started with Create React App
+# TrailBliss — Travel Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Full-stack travel booking app. React frontend + Node/Express backend with MongoDB.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+```
+travelwebsite/
+├── package.json        # root orchestrator (concurrently)
+├── client/             # React frontend (Create React App)
+│   ├── package.json
+│   ├── public/
+│   └── src/
+│       ├── api/
+│       ├── components/
+│       ├── context/
+│       ├── styles/
+│       └── utils/
+└── server/             # Node/Express backend
+    ├── package.json
+    ├── index.js        # entry (port 5000)
+    ├── data/
+    ├── models/
+    ├── modules/        # routers: bookings, cars, destinations, rentals, reviews
+    ├── utils/
+    └── seed.js
+```
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js 18+
+- npm 9+
+- MongoDB running locally on `mongodb://localhost:27017/travelDB`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Install
 
-### `npm test`
+From the project root (`travelwebsite/`):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install                      # installs root devDeps (concurrently)
+npm --prefix client install      # installs frontend deps
+npm --prefix server install      # installs backend deps
+```
 
-### `npm run build`
+Or in one shot:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm run install:all
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Both together (recommended)
 
-### `npm run eject`
+From the project root:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run dev
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Starts:
+- **Frontend** → http://localhost:3000
+- **Backend**  → http://localhost:5000
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Individually
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm run client                   # frontend only (port 3000)
+npm run server                   # backend only  (port 5000)
+```
 
-## Learn More
+Or from inside each folder:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd client && npm start
+cd server && npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Root Scripts
 
-### Code Splitting
+| Script              | What it does                                   |
+|---------------------|------------------------------------------------|
+| `npm run dev`       | Runs client + server concurrently              |
+| `npm run client`    | Starts only the React frontend                 |
+| `npm run server`    | Starts only the Express backend                |
+| `npm run build`     | Builds the frontend for production             |
+| `npm run seed`      | Seeds the database (runs `server/seed.js`)     |
+| `npm run install:all` | Installs deps in root, client, and server    |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Backend API
 
-### Analyzing the Bundle Size
+Base URL: `http://localhost:5000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Method | Route                                          | Purpose            |
+|--------|------------------------------------------------|--------------------|
+| POST   | `/signup`                                      | Create account     |
+| POST   | `/login`                                       | Login              |
+| GET    | `/api/favorites/:username`                     | List favorites     |
+| POST   | `/api/favorites`                               | Add favorite       |
+| DELETE | `/api/favorites/:username/:destination_name`   | Remove favorite    |
+| GET    | `/reviews`                                     | List reviews       |
+| POST   | `/reviews`                                     | Add review         |
+| *      | `/api/v1/bookings`, `/rentals`, `/destinations`, `/reviews` | Modular routers |
+| *      | `/api/cars`                                    | Cars router        |
+| GET    | `/api/v1/health`                               | Health check       |
 
-### Making a Progressive Web App
+## Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Create React App (react-scripts 5)
+- React Router v7
+- API calls hit `http://localhost:5000/...` directly (no proxy configured)
 
-### Advanced Configuration
+## Ports
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Service  | Port |
+|----------|------|
+| Frontend | 3000 |
+| Backend  | 5000 |
+| MongoDB  | 27017 |
 
-### Deployment
+## Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **`npm run dev` errors inside `client/` or `server/`** — the `dev` script lives at the **root**. Inside each folder use `npm start`.
+- **`ECONNREFUSED` on frontend API calls** — backend isn't running. Start it with `npm run server`.
+- **Mongoose connection error** — MongoDB isn't running locally. Start it (`mongod`) or update the URI in `server/index.js`.
 
-### `npm run build` fails to minify
+## Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Frontend**: React 19, React Router 7, Axios, CRA (react-scripts 5)
+- **Backend**: Express 5, Mongoose 9, bcrypt, cors, pg
+- **DB**: MongoDB
