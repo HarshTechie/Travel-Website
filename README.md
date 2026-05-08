@@ -2,6 +2,12 @@
 
 Full-stack travel booking app. React frontend + Node/Express backend with MongoDB.
 
+## Live Demo
+
+- **Frontend (Vercel):** https://travel-website-topaz-delta.vercel.app
+- **Backend (Render):** https://travel-backend-qtfn.onrender.com
+- **Database:** MongoDB Atlas
+
 ## Project Structure
 
 ```
