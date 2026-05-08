@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import StarRating from './common/StarRating';
+import { API_BASE } from '../api/client';
 import '../styles/Reviews.css';
 import '../styles/Common.css';
 
@@ -13,7 +14,7 @@ export default function Reviews({ user }) {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/reviews');
+      const res = await axios.get(`${API_BASE}/reviews`);
       setReviews(res.data);
     } catch (err) {
       console.error('Error fetching reviews:', err);
@@ -40,7 +41,7 @@ export default function Reviews({ user }) {
         .map((s) => s.trim())
         .filter(Boolean);
       // Enhanced endpoint: accepts optional rating + images
-      const res = await axios.post('http://localhost:5000/api/v1/reviews', {
+      const res = await axios.post(`${API_BASE}/api/v1/reviews`, {
         username: user.username,
         review: newReview,
         rating: rating || null,
@@ -55,7 +56,7 @@ export default function Reviews({ user }) {
       console.error('Error adding review:', err);
       // Graceful fallback: retry against legacy endpoint if enhanced fails
       try {
-        const res = await axios.post('http://localhost:5000/reviews', {
+        const res = await axios.post(`${API_BASE}/reviews`, {
           username: user.username,
           review: newReview,
         });
